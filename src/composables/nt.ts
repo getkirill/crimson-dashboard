@@ -3,12 +3,23 @@ import { computed, ref, toValue, watch, watchEffect, type ComputedRef, type Mayb
 
 const nt = ref<NetworkTables>()
 const connected = ref(false)
+export const ipRegex = /^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/
+export type Address = {
+    ip: string
+} | {
+    team: number
+}
+const address = ref<Address>({ ip: "127.0.0.1" })
 export function useNt() {
-    function configure(address: { uri: string } | { team: number }) {
-        nt.value = 'team' in address ? NetworkTables.getInstanceByTeam(address.team) : NetworkTables.getInstanceByURI(address.uri)
+    watch(address, () => {
+        console.log("reconnecting")
+        if(nt.value) {
+            nt.value.client.cleanup()
+        }
+        nt.value = 'team' in address.value ? NetworkTables.getInstanceByTeam(address.value.team) : NetworkTables.getInstanceByURI(address.value.ip)
         nt.value.addRobotConnectionListener(isConnected => connected.value = isConnected)
-    }
-    return { instance: nt, configure, connected }
+    }, {immediate: true})
+    return { instance: nt, address, connected }
 }
 export function useNtTopic<T extends string | number | boolean | ArrayBuffer | boolean[] | string[] | number[]>(topic: string, type: NetworkTablesTypeInfo, def?: T) {
     const topicRef = ref<NetworkTablesTopic<T>>()
@@ -22,7 +33,8 @@ export function useNtTopic<T extends string | number | boolean | ArrayBuffer | b
 
 
 export function useNtTopicValue<T extends string | number | boolean | ArrayBuffer | boolean[] | string[] | number[]>(
-    topic: MaybeRef<NetworkTablesTopic<T> | undefined> | ComputedRef<NetworkTablesTopic<T> | undefined>
+    topic: MaybeRef<NetworkTablesTopic<T> | undefined> | ComputedRef<NetworkTablesTopic<T> | undefined>,
+    publish: boolean = true
 ) {
     const value = ref<T | null>(null)
     let subscription: number
@@ -36,9 +48,10 @@ export function useNtTopicValue<T extends string | number | boolean | ArrayBuffe
         }
 
         try {
-            console.log("Publishing topic:", currentTopic.name)
-            await currentTopic.publish()
-
+            if (publish) {
+                console.log("Publishing topic:", currentTopic.name)
+                await currentTopic.publish()
+            }
             console.log("Subscribing to:", currentTopic.name)
             subscription = currentTopic.subscribe((v) => {
                 if (value.value !== v) {
@@ -50,7 +63,7 @@ export function useNtTopicValue<T extends string | number | boolean | ArrayBuffe
         }
     }, { immediate: true })
 
-    watch(value, (newValue) => {
+    if (publish) watch(value, (newValue) => {
         const currentTopic = toValue(topic)
         if (currentTopic && currentTopic.publisher) {
             currentTopic.setValue(newValue)
