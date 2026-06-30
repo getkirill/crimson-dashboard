@@ -3,13 +3,14 @@ import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from 'reka-ui';
 import AddressInput from './components/AddressInput.vue';
 import { useNt } from './composables/nt';
 import { ref } from 'vue';
+import Dash from './components/Dash.vue';
 
 const { address, connected } = useNt()
 const tab = ref('tab1')
 </script>
 
 <template>
-  <div class="w-screen h-screen bg-gray-900 text-white">
+  <div class="flex flex-col w-screen h-screen bg-gray-900 text-white">
     <header class="bg-primary-500 flex p-2">
       <h1>Crimson Dashboard</h1>
       <AddressInput v-model="address" />
@@ -26,5 +27,6 @@ const tab = ref('tab1')
         </TabsTrigger>
       </TabsList>
     </TabsRoot>
+    <Dash />
   </div>
 </template>

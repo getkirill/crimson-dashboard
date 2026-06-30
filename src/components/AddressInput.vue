@@ -11,7 +11,7 @@ onMounted(() => {
 function update(e: InputEvent) {
     const value = input.value?.value
     if (!value) return
-    if (!Number.isNaN(+value) && Number.isInteger(+value)) {
+    if (/[0-9]+/.test(value)) {
         console.log("Setting address to team")
         model.value = { team: +value }
     } else if(ipRegex.test(value.trim())) {
