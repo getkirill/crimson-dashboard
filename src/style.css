@@ -11,4 +11,10 @@
   --color-primary-800: oklch(0.271 0.092 18.6);
   --color-primary-900: oklch(0.208 0.071 17.78);
   --color-primary-950: oklch(0.173 0.058 18.73);
+  --spacing-title-x: env(titlebar-area-x, 0);
+  --spacing-title-h: env(titlebar-area-height, 2.2rem);
+  --spacing-title-w: env(titlebar-area-width, 100%);
+}
+.app-region-drag {
+  app-region: drag;
 }

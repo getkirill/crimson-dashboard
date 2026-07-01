@@ -1,5 +1,5 @@
 import { NetworkTables, NetworkTablesTopic, type NetworkTablesTypeInfo } from "ntcore-ts-client"
-import { computed, ref, toValue, watch, watchEffect, type ComputedRef, type MaybeRef, type MaybeRefOrGetter } from "vue"
+import { ref, toValue, watch, watchEffect, type ComputedRef, type MaybeRef, type MaybeRefOrGetter } from "vue"
 
 const nt = ref<NetworkTables>()
 const connected = ref(false)
