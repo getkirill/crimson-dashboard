@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NetworkTablesTypeInfos } from 'ntcore-ts-client';
-import { useNtTopic, useNtTopicValue } from '../composables/nt';
+import { useNtTopic, useNtTopicValue } from '../composables/ntVue';
 
 const {topic: topicName} = defineProps<{topic: string}>()
 

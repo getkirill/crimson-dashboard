@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from 'reka-ui';
 import AddressInput from './components/AddressInput.vue';
-import { useNt } from './composables/nt';
+import { useNt, useNtTopics } from './composables/ntVue.ts';
 import { ref } from 'vue';
 import Dash from './components/Dash.vue';
 import SWUpdate from './components/SWUpdate.vue';
 
 const { address, connected } = useNt()
 const tab = ref('tab1')
+const topics = useNtTopics()
 </script>
 
 <template>
@@ -33,6 +34,8 @@ const tab = ref('tab1')
         </TabsTrigger>
       </TabsList>
     </TabsRoot>
-    <Dash />
+    <p v-if="topics.length > 0" v-for="topic in topics">{{ topic }}</p>
+    <p v-else>No known topics</p>
+    <!-- <Dash /> -->
   </div>
 </template>

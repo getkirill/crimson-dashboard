@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, useTemplateRef } from 'vue';
-import { ipRegex, type Address } from '../composables/nt';
+import { ipRegex, type Address } from '../composables/ntVue';
 
 const model = defineModel<Address>()
 const input = useTemplateRef('input')
