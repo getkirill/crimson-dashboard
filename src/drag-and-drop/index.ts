@@ -14,12 +14,16 @@ export function drag(el: HTMLElement) {
   );
   return mousedown$.pipe(
     switchMap((start) => {
+      const rect = el.getBoundingClientRect();
+      const offsetX = start.clientX - rect.left;
+      const offsetY = start.clientY - rect.top;
+
       return mousemove$.pipe(
         map((move) => {
           move.preventDefault();
           return {
-            left: move.clientX - start.offsetX,
-            top: move.clientY - start.offsetY,
+            left: move.clientX - offsetX,
+            top: move.clientY - offsetY,
           };
         }),
         takeUntil(mouseup$),
