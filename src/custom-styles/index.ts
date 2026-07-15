@@ -20,9 +20,7 @@ export class CustomStylesElement extends HTMLElement {
   }
   updateStyleContent() {
     if (!this.styleEl) return;
-    const attr = this.getAttribute("styles");
-    const content = attr !== null ? attr : (this.textContent ?? "");
-    this.styleEl.textContent = content;
+    this.styleEl.textContent = this.textContent ?? "";
   }
   disconnectedCallback() {
     // remove style element
