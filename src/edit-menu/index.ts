@@ -1,9 +1,13 @@
-import template from "./template.html";
+import templateRaw from "./template.html?raw";
+import $template from "../template.ts";
+const template = $template(templateRaw);
 export class EditMenu extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    this.shadowRoot!.appendChild(template.content.cloneNode(true));
+    template.content
+      .cloneNode(true)
+      .childNodes.forEach((it) => this.shadowRoot!.appendChild(it));
     document.addEventListener("click", (e) => {
       if (!this.contains(e.target as HTMLElement)) this.close();
     });

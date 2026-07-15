@@ -2,7 +2,9 @@ import { NtCheckbox } from "../nt-checkbox";
 import { NtInt } from "../nt-int";
 import { NtString } from "../nt-string";
 import { NtValueElement } from "../nt-value";
-import template from "./template.html";
+import templateRaw from "./template.html?raw";
+import $template from "../template.ts";
+const template = $template(templateRaw);
 function appendField<T extends keyof HTMLElementTagNameMap>(
   container: HTMLElement,
   label: string,
@@ -21,7 +23,9 @@ export class ConfigureDialog extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    this.shadowRoot!.appendChild(template.content.cloneNode(true));
+    template.content
+      .cloneNode(true)
+      .childNodes.forEach((it) => this.shadowRoot!.appendChild(it));
     this.dialog = this.shadowRoot!.querySelector("dialog")!;
     this.dialog.addEventListener("close", () => this.handleClosure());
     this.dialog

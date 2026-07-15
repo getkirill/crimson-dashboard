@@ -1,12 +1,16 @@
 import { BehaviorSubject } from "rxjs";
-import template from "./template.html";
+import templateRaw from "./template.html?raw";
+import $template from "../template.ts";
+const template = $template(templateRaw);
 export type Tool = "interact" | "select" | "add";
 export class ToolbarElement extends HTMLElement {
   tool$: BehaviorSubject<Tool> = new BehaviorSubject<Tool>("interact");
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    this.shadowRoot!.appendChild(template.content.cloneNode(true));
+    template.content
+      .cloneNode(true)
+      .childNodes.forEach((it) => this.shadowRoot!.appendChild(it));
     this.shadowRoot!.querySelectorAll<HTMLButtonElement>(
       ".children button",
     ).forEach((it) => {

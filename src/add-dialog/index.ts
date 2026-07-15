@@ -1,6 +1,8 @@
 import type { NTTopicType } from "../nt";
 import nt from "../ntInstance";
-import template from "./template.html";
+import templateRaw from "./template.html?raw";
+import $template from "../template.ts";
+const template = $template(templateRaw);
 export type CustomElementToAdd = {
   element: "label" | "connection-state" | "address-input" | "force-reconnect";
 };
@@ -13,7 +15,9 @@ export class AddDialog extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    this.shadowRoot!.appendChild(template.content.cloneNode(true));
+    template.content
+      .cloneNode(true)
+      .childNodes.forEach((it) => this.shadowRoot!.appendChild(it));
     this.dialog = this.shadowRoot!.querySelector("dialog")!;
     this.dialog.addEventListener("close", () => this.handleClosure());
     this.dialog

@@ -1,5 +1,7 @@
 import { filter, fromEvent, map, merge, switchMap, takeUntil } from "rxjs";
-import template from "./template.html";
+import templateRaw from "./template.html?raw";
+import $template from "../template.ts";
+const template = $template(templateRaw);
 export function drag(el: HTMLElement) {
   const mousedown$ = fromEvent<MouseEvent>(el, "mousedown").pipe(
     filter((e) => e.button == 0),
@@ -39,7 +41,9 @@ export class DragAndDropElement extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    this.shadowRoot!.appendChild(template.content.cloneNode(true));
+    template.content
+      .cloneNode(true)
+      .childNodes.forEach((it) => this.shadowRoot!.appendChild(it));
     const slot = this.shadowRoot!.querySelector("slot")!;
     slot.addEventListener("slotchange", () => {
       const els = slot.assignedElements();
