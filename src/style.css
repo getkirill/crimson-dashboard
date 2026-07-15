@@ -64,3 +64,10 @@ edit-menu {
 .dummy-label {
   white-space: pre-wrap;
 }
+custom-styles {
+  border: 1px dashed var(--color-primary-500);
+  padding: .25rem;
+}
+body.mode\:interact custom-styles {
+  display: none;
+}

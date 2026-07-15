@@ -4,7 +4,12 @@ import templateRaw from "./template.html?raw";
 import $template from "../template.ts";
 const template = $template(templateRaw);
 export type CustomElementToAdd = {
-  element: "label" | "connection-state" | "address-input" | "force-reconnect";
+  element:
+  | "label"
+  | "connection-state"
+  | "address-input"
+  | "force-reconnect"
+  | "custom-styles";
 };
 
 export type ElementToAdd =
@@ -33,14 +38,14 @@ export class AddDialog extends HTMLElement {
         this.confirm({ topic, type });
       });
     }
-    for (const addEl of this.dialog.querySelectorAll<HTMLButtonElement>(
+    this.dialog.querySelectorAll<HTMLButtonElement>(
       "button.add-el",
-    )) {
+    ).forEach((addEl) => {
       const element = addEl.dataset["element"];
       addEl.addEventListener("click", () =>
         this.confirm({ element } as CustomElementToAdd),
       );
-    }
+    });
     this.dialog
       .querySelector<HTMLFormElement>("#manual")
       ?.addEventListener("submit", (e) => {
@@ -86,5 +91,5 @@ declare global {
   interface AddDialogEventMap {
     "add-element": CustomEvent<ElementToAdd>;
   }
-  interface HTMLElementEventMap extends AddDialogEventMap {}
+  interface HTMLElementEventMap extends AddDialogEventMap { }
 }

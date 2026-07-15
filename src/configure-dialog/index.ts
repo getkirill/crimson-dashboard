@@ -109,6 +109,17 @@ export class ConfigureDialog extends HTMLElement {
         this.target!.innerText = textArea.value;
       });
       settings.appendChild(textArea);
+    } else if (this.target && this.target.localName === "custom-styles") {
+      settings.replaceChildren();
+      const cssArea = document.createElement("textarea");
+      const current = (this.target.textContent ?? "").trim();
+      cssArea.value = current;
+      cssArea.placeholder = "Enter CSS rules (e.g. .my-class { color: red; })";
+      cssArea.addEventListener("input", () => {
+        this.target!.textContent = cssArea.value;
+        this.target!.setAttribute("styles", cssArea.value);
+      });
+      settings.appendChild(cssArea);
     }
   }
   disconnectedCallback() {

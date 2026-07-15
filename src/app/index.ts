@@ -9,6 +9,7 @@ import "../edit-menu";
 import "../add-dialog";
 import "../configure-dialog";
 import "../address-input";
+import "../custom-styles";
 import templateRaw from "./template.html?raw";
 import $template from "../template.ts";
 const template = $template(templateRaw);
@@ -133,6 +134,12 @@ export function mountApp() {
             }
             case "address-input": {
               addNewElement(document.createElement("address-input"));
+              break;
+            }
+            case "custom-styles": {
+              const cs = document.createElement("custom-styles");
+              cs.textContent = "/* custom styles go here */";
+              addNewElement(cs);
               break;
             }
             default: {
