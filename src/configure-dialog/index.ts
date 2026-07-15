@@ -1,6 +1,5 @@
 import { NtCheckbox } from "../nt-checkbox";
-import { NtInt } from "../nt-int";
-import { NtString } from "../nt-string";
+import { NtInput } from "../nt-input/index.ts";
 import { NtValueElement } from "../nt-value";
 import templateRaw from "./template.html?raw";
 import $template from "../template.ts";
@@ -50,8 +49,7 @@ export class ConfigureDialog extends HTMLElement {
       const widget = this.target.children.item(0);
       if (
         widget instanceof NtCheckbox ||
-        widget instanceof NtString ||
-        widget instanceof NtInt
+        widget instanceof NtInput
       ) {
         settings.replaceChildren();
         const label = appendField(settings, "Label: ", "input");

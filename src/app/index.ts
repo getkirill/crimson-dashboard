@@ -2,8 +2,7 @@ import { EMPTY, filter, fromEvent, skip, switchMap } from "rxjs";
 import "../drag-and-drop";
 import "../editor-toolbar";
 import "../nt-checkbox";
-import "../nt-string";
-import "../nt-int";
+import "../nt-input";
 import "../nt-value";
 import "../connection-state";
 import "../edit-menu";
@@ -81,20 +80,35 @@ export function mountApp() {
               );
               break;
             }
-            case "string": {
+            case "string":
+            case "int":
+            case "float":
+            case "double":   {
               addNewElement(
-                createNtValue(element.topic, element.type, "nt-string"),
+                createNtValue(element.topic, element.type, "nt-input"),
               );
               break;
             }
-            case "int": {
-              addNewElement(
-                createNtValue(element.topic, element.type, "nt-int"),
-              );
+            case "double":
+            case "float":
+            case "json":
+            case "boolean[]":
+            case "double[]":
+            case "int[]":
+            case "float[]":
+            case "string[]": {
+              alert(`TODO:  ${element.type}`)
+              break;
+            }
+            case "raw":
+            case "rpc":
+            case "msgpack":
+            case "protobuf": {
+              alert(`NT Type ${element.type} not supported.`)
               break;
             }
             default: {
-              alert("TODO: Unsupported NetworkTables type: " + element.type);
+              alert("Unknown NetworkTables type: " + element.type);
             }
           }
         } else {
