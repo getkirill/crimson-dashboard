@@ -155,6 +155,8 @@ export class NetworkTables {
     if (!this.ws) return;
     this.ws?.close();
     this.ws = undefined;
+    this.topicIds = new Map();
+    this.topicTypes = new Map();
     this.connectionState$.next("not_connected");
   }
 
