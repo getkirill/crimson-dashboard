@@ -1,4 +1,4 @@
-import { filter, fromEvent, map, Subscription, takeWhile } from "rxjs";
+import { debounceTime, filter, fromEvent, map, Subscription, takeWhile } from "rxjs";
 import type { NtValueElement } from "../nt-value";
 import nt from "../ntInstance";
 
@@ -31,11 +31,11 @@ export class NtInput extends HTMLElement {
     }
     this.ntValue = this.parentElement as NtValueElement<any>;
     switch (this.ntValue.type) {
-      // @ts-ignore 7029
-      case "int":
-        this.input.step = '1'
       case "float":
+      // @ts-ignore 7029
       case "double":
+        this.input.step = 'any'
+      case "int":
         this.input.type = "number"
     }
     nt.connectionState$
@@ -44,6 +44,7 @@ export class NtInput extends HTMLElement {
         this.inputSubscription = fromEvent(this.input, "input")
           .pipe(
             takeWhile(() => this.ntValue != undefined),
+            debounceTime(500),
             map(() => this.getInputValue()),
           )
           .subscribe(this.ntValue!.publisher$);
@@ -55,6 +56,7 @@ export class NtInput extends HTMLElement {
     this.labelEl.firstChild!.textContent = this.label ?? this.ntValue.name;
   }
   setInputValue(newValue: any): void {
+    console.log('Set', this, 'to', newValue)
     switch (this.ntValue!.type) {
       case "string":
         this.input.value = newValue as string
@@ -62,7 +64,7 @@ export class NtInput extends HTMLElement {
       case "double":
       case "float":
       case "int":
-        this.input.value = `${newValue}`
+        this.input.valueAsNumber = newValue
         break
       case "json":
         this.input.value = JSON.stringify(newValue)

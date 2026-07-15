@@ -20,34 +20,34 @@ export function addressToIp(address: Address): string {
 export type NTTopicProperties = {};
 export type NTTextMessage =
   | {
-      method: "announce";
-      params: {
-        name: string;
-        id: number;
-        type: string;
-        pubuid?: number;
-        properties: NTTopicProperties;
-      };
-    }
+    method: "announce";
+    params: {
+      name: string;
+      id: number;
+      type: string;
+      pubuid?: number;
+      properties: NTTopicProperties;
+    };
+  }
   | { method: "unannounce"; params: { name: string; id: number } }
   | {
-      method: "subscribe";
-      params: {
-        topics: string[];
-        subuid: number;
-        options: { topicsonly?: boolean; prefix?: boolean };
-      };
-    }
+    method: "subscribe";
+    params: {
+      topics: string[];
+      subuid: number;
+      options: { topicsonly?: boolean; prefix?: boolean };
+    };
+  }
   | { method: "unsubscribe"; params: { subuid: number } }
   | {
-      method: "publish";
-      params: {
-        name: string;
-        pubuid: number;
-        type: string;
-        properties: NTTopicProperties;
-      };
-    }
+    method: "publish";
+    params: {
+      name: string;
+      pubuid: number;
+      type: string;
+      properties: NTTopicProperties;
+    };
+  }
   | { method: "unpublish"; params: { pubuid: number } };
 export type NTUpdate<T> = [number, number, number, T];
 export type ConnectionState = "not_connected" | "connecting" | "connected";
@@ -67,13 +67,13 @@ export type NTTopicType =
   | "int[]"
   | "float[]"
   | "string[]";
-export function ntTypeOf(value: any): number {
+export function ntTypeOf(value: any, doubleNum: boolean = false): number {
   if (typeof value === "boolean") {
     return 0;
   }
 
   if (typeof value === "number") {
-    return Number.isInteger(value) ? 2 : 1;
+    return Number.isInteger(value) ? 2 : (doubleNum ? 1 : 3);
   }
 
   if (typeof value === "string") {
@@ -96,7 +96,7 @@ export function ntTypeOf(value: any): number {
         return 18;
       }
       if (value.every((v) => typeof v === "number")) {
-        return 17;
+        return doubleNum ? 17 : 19;
       }
     }
 
@@ -195,7 +195,7 @@ export class NetworkTables {
   }
   sendFrame(frame: NTTextMessage | NTUpdate<any>) {
     if (frame instanceof Array) {
-      this.ws?.send(msgpack.encode(frame));
+      this.ws?.send(msgpack.encode(frame, { forceFloat32: frame[2] == 3}));
     } else {
       this.ws?.send(JSON.stringify([frame]));
     }
@@ -227,13 +227,13 @@ export class NetworkTables {
         this.sendFrame([
           pubuid,
           Math.floor(Date.now() * 1000),
-          ntTypeOf(value),
+          ntTypeOf(value, type == 'double'),
           value,
         ]);
         this.updates$.next([
           this.topicIds.get(topicName)!,
           Math.floor(Date.now() * 1000),
-          ntTypeOf(value),
+          ntTypeOf(value, type == 'double'),
           value,
         ]); // make subscribers aware of new value
       },

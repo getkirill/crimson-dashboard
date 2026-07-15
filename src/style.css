@@ -34,7 +34,7 @@ body {
   color: white;
   width: 100vw;
   height: 100vh;
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: hidden;
 }
 
