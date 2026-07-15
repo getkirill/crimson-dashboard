@@ -10,9 +10,7 @@ import "../add-dialog";
 import "../configure-dialog";
 import "../address-input";
 import "../custom-styles";
-import templateRaw from "./template.html?raw";
-import $template from "../template.ts";
-const template = $template(templateRaw);
+import template from "./template.html";
 import defaultLayout from "./defaultLayout.html?raw";
 import { createNtValue, NtValueElement } from "../nt-value";
 import type { DragAndDropElement } from "../drag-and-drop";
@@ -84,7 +82,7 @@ export function mountApp() {
             case "string":
             case "int":
             case "float":
-            case "double":   {
+            case "double": {
               addNewElement(
                 createNtValue(element.topic, element.type, "nt-input"),
               );
@@ -98,14 +96,14 @@ export function mountApp() {
             case "int[]":
             case "float[]":
             case "string[]": {
-              alert(`TODO:  ${element.type}`)
+              alert(`TODO:  ${element.type}`);
               break;
             }
             case "raw":
             case "rpc":
             case "msgpack":
             case "protobuf": {
-              alert(`NT Type ${element.type} not supported.`)
+              alert(`NT Type ${element.type} not supported.`);
               break;
             }
             default: {
@@ -162,7 +160,10 @@ export function mountApp() {
       e.preventDefault();
       document.querySelectorAll("edit-menu").forEach((it) => it.remove());
       const editTarget = getTopMostParentOf(e.target as HTMLElement, dnd);
-      const menuLabel = editTarget instanceof NtValueElement ? editTarget.name : editTarget?.localName;
+      const menuLabel =
+        editTarget instanceof NtValueElement
+          ? editTarget.name
+          : editTarget?.localName;
       const contextMenu = document.createElement("edit-menu");
       contextMenu.setAttribute("element", menuLabel ?? "unknown");
       contextMenu.style.left = `${e.clientX}px`;

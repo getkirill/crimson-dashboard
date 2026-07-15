@@ -1,7 +1,5 @@
 import { filter, fromEvent, map, merge, switchMap, takeUntil } from "rxjs";
-import templateRaw from "./template.html?raw";
-import $template from "../template.ts";
-const template = $template(templateRaw);
+import template from "./template.html";
 export function drag(el: HTMLElement) {
   const mousedown$ = fromEvent<MouseEvent>(el, "mousedown").pipe(
     filter((e) => e.button == 0),

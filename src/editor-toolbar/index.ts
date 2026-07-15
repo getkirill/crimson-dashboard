@@ -1,7 +1,5 @@
 import { BehaviorSubject } from "rxjs";
-import templateRaw from "./template.html?raw";
-import $template from "../template.ts";
-const template = $template(templateRaw);
+import template from "./template.html";
 export type Tool = "interact" | "select" | "add";
 export class ToolbarElement extends HTMLElement {
   tool$: BehaviorSubject<Tool> = new BehaviorSubject<Tool>("interact");

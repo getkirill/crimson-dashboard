@@ -2,9 +2,7 @@ import { NtCheckbox } from "../nt-checkbox";
 import { NtInput } from "../nt-input/index.ts";
 import { NtChart } from "../nt-chart";
 import { NtValueElement } from "../nt-value";
-import templateRaw from "./template.html?raw";
-import $template from "../template.ts";
-const template = $template(templateRaw);
+import template from "./template.html";
 function appendField<T extends keyof HTMLElementTagNameMap>(
   container: HTMLElement,
   label: string,
@@ -44,7 +42,8 @@ export class ConfigureDialog extends HTMLElement {
       console.error("target not set");
       return;
     }
-    const variantSel = this.shadowRoot!.querySelector<HTMLSelectElement>("#variant")!;
+    const variantSel =
+      this.shadowRoot!.querySelector<HTMLSelectElement>("#variant")!;
     const settings =
       this.shadowRoot!.querySelector<HTMLDivElement>("#settings")!;
     if (this.target instanceof NtValueElement) {
@@ -83,7 +82,8 @@ export class ConfigureDialog extends HTMLElement {
         settings.appendChild(label);
         label.value = (widget as any).label ?? widget?.ntValue!.name;
         label.addEventListener("input", () => {
-          if ((widget as any).label !== undefined) (widget as any).label = label.value;
+          if ((widget as any).label !== undefined)
+            (widget as any).label = label.value;
         });
 
         variantSel.addEventListener("change", () => {
@@ -92,7 +92,10 @@ export class ConfigureDialog extends HTMLElement {
           const current = this.target.children.item(0);
           if (current && current.localName === sel) return;
           const newEl = document.createElement(sel);
-          if ((current as any)?.getAttribute && (current as any).getAttribute("label")) {
+          if (
+            (current as any)?.getAttribute &&
+            (current as any).getAttribute("label")
+          ) {
             const lab = (current as any).getAttribute("label");
             if (lab) newEl.setAttribute("label", lab);
           }

@@ -1,6 +1,4 @@
-import templateRaw from "./template.html?raw";
-import $template from "../template.ts";
-const template = $template(templateRaw);
+import template from "./template.html";
 export class EditMenu extends HTMLElement {
   constructor() {
     super();

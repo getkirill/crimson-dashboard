@@ -60,20 +60,23 @@ export class NtChart extends HTMLElement {
 
     const validTypes = ["double", "float", "int"];
     if (!validTypes.includes(this.ntValue.type)) {
-      throw new Error(`nt-chart only supports numeric types. Current: ${this.ntValue.type}`);
+      throw new Error(
+        `nt-chart only supports numeric types. Current: ${this.ntValue.type}`,
+      );
     }
 
     this.initializeChart();
 
     nt.connectionState$
       .pipe(filter((it) => it === "connected"))
-      .subscribe(() => {this.publishSubscription = this.ntValue!.subscriber$!.subscribe(
+      .subscribe(() => {
+        this.publishSubscription = this.ntValue!.subscriber$!.subscribe(
           (newValue) => {
             const parsed = Number(newValue);
             if (!isNaN(parsed)) {
               this.latestValue = parsed;
             }
-          }
+          },
         );
 
         this.startTimelineLoop();
@@ -111,7 +114,9 @@ export class NtChart extends HTMLElement {
             },
             ticks: {
               callback: (value) => {
-                const secondsAgo = Math.round((Date.now() - Number(value)) / 1000);
+                const secondsAgo = Math.round(
+                  (Date.now() - Number(value)) / 1000,
+                );
                 const durationRounded = Math.round(this.durationSeconds);
                 if (secondsAgo === 0) return "now";
                 if (secondsAgo === durationRounded) return `-${secondsAgo}s`;
@@ -147,15 +152,18 @@ export class NtChart extends HTMLElement {
     const now = Date.now();
     this.chartDataPoints.push({
       x: now,
-      y: this.latestValue
+      y: this.latestValue,
     });
   }
 
   private pruneAndRedraw() {
     const now = Date.now();
-    const cutoffTime = now - (this.durationSeconds * 1000);
+    const cutoffTime = now - this.durationSeconds * 1000;
 
-    while (this.chartDataPoints.length > 0 && this.chartDataPoints[0].x < cutoffTime) {
+    while (
+      this.chartDataPoints.length > 0 &&
+      this.chartDataPoints[0].x < cutoffTime
+    ) {
       this.chartDataPoints.shift();
     }
 
