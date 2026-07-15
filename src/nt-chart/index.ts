@@ -107,8 +107,7 @@ export class NtChart extends HTMLElement {
             type: "linear",
             display: true,
             title: {
-              display: true,
-              text: "Seconds ago",
+              display: false,
             },
             ticks: {
               callback: (value) => {
