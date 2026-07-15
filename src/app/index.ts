@@ -98,6 +98,10 @@ export function mountApp() {
               break;
             }
             case "force-reconnect": {
+              const button = document.createElement("button");
+              button.textContent = "Reconnect";
+              button.setAttribute("onclick", "nt.disconnect(false)");
+              addNewElement(button);
               break;
             }
             case "address-input": {
