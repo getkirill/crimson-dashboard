@@ -1,0 +1,66 @@
+:root {
+  --color-primary-50: oklch(0.952 0.02 13.72);
+  --color-primary-100: oklch(0.892 0.045 12.97);
+  --color-primary-200: oklch(0.788 0.101 14.19);
+  --color-primary-300: oklch(0.684 0.169 16.1);
+  --color-primary-400: oklch(0.576 0.197 17.95);
+  --color-primary-500: oklch(0.461 0.158 18.02);
+  --color-primary-600: oklch(0.397 0.136 17.84);
+  --color-primary-700: oklch(0.333 0.114 17.77);
+  --color-primary-800: oklch(0.271 0.092 18.6);
+  --color-primary-900: oklch(0.208 0.071 17.78);
+  --color-primary-950: oklch(0.173 0.058 18.73);
+  --color-secondary-50: oklch(0.992 0.02 100.52);
+  --color-secondary-100: oklch(0.98 0.039 100.83);
+  --color-secondary-200: oklch(0.972 0.063 101.67);
+  --color-secondary-300: oklch(0.954 0.118 103.71);
+  --color-secondary-400: oklch(0.935 0.159 104.81);
+  --color-secondary-500: oklch(0.923 0.157 104.74);
+  --color-secondary-600: oklch(0.763 0.129 104.54);
+  --color-secondary-700: oklch(0.61 0.103 104.43);
+  --color-secondary-800: oklch(0.455 0.077 105.28);
+  --color-secondary-900: oklch(0.292 0.05 104.11);
+  --color-secondary-950: oklch(0.214 0.036 104.12);
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: black;
+  color: white;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+drag-and-drop > * {
+  position: absolute;
+}
+
+editor-toolbar {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+body.mode\:add:not(:has(add-dialog)) {
+  cursor: crosshair;
+}
+
+body.mode\:select {
+  user-select: none;
+}
+
+edit-menu {
+  position: absolute;
+}
+
+.dummy-label {
+  white-space: pre-wrap;
+}

@@ -1,0 +1,37 @@
+<dialog>
+  <button id="cancel">X</button>
+  <label
+    >Variant:
+    <select id="variant" disabled>
+      <option selected>No variants...</option>
+    </select>
+  </label>
+  <div id="settings">This element does not support configuration.</div>
+</dialog>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  dialog {
+    margin: auto;
+    padding: 1rem;
+  }
+  dialog {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  dialog::backdrop {
+    background-color: color-mix(
+      in srgb,
+      var(--color-primary-900),
+      transparent 50%
+    );
+  }
+  #cancel {
+    margin-left: auto;
+    aspect-ratio: 1 / 1;
+  }
+</style>

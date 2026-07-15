@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="children">
+    <button id="interact" class="active">Interact</button>
+    <button id="select">Select</button>
+    <button id="add">Add</button>
+    <hr />
+    <button id="export" disabled>Export</button>
+    <button id="import" disabled>Import</button>
+  </div>
+  <p class="handle" style="writing-mode: vertical-rl">Interact</p>
+</div>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .children {
+    gap: 0.25rem;
+    width: 0;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-primary-500);
+    /* transition: width 250ms ease-in-out; */
+  }
+  .handle {
+    background-color: var(--color-primary-500);
+    padding: 1rem 0.25rem;
+    overflow: hidden;
+  }
+  :host(:hover) .children {
+    padding: 0.5rem;
+    width: max-content;
+  }
+  :host(:hover) .handle {
+    width: 0;
+    padding: 0;
+  }
+  .container {
+    display: flex;
+    padding: 1rem 0;
+    align-items: center;
+  }
+  button {
+    padding: 0.25rem;
+    background-color: white;
+    color: var(--color-primary-500);
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+  button.active {
+    background-color: var(--color-secondary-500);
+    color: var(--color-primary-500);
+  }
+  button:disabled {
+    background-color: gray;
+    color: black;
+    cursor: initial;
+  }
+</style>

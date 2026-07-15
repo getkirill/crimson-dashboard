@@ -1,0 +1,91 @@
+<dialog>
+  <button id="cancel">X</button>
+  <p>Add NetworkTables topic:</p>
+  <div id="topics">
+    <button>[boolean] /FMSInfo/IsRedAlliance</button>
+  </div>
+  <hr />
+  <p>...or enter NetworkTables topic name and type:</p>
+  <form id="manual">
+    <input type="text" name="name" placeholder="/Name/of/Topic" />
+    <select name="type">
+      <option value="boolean">boolean</option>
+      <option value="double">double</option>
+      <option value="int">int</option>
+      <option value="float">float</option>
+      <option value="string">string</option>
+      <option value="json">json</option>
+      <option value="raw">raw</option>
+      <option value="rpc">rpc</option>
+      <option value="msgpack">msgpack</option>
+      <option value="protobuf">protobuf</option>
+      <option value="boolean[]">boolean[]</option>
+      <option value="double[]">double[]</option>
+      <option value="int[]">int[]</option>
+      <option value="float[]">float[]</option>
+      <option value="string[]">string[]</option>
+    </select>
+    <input type="submit" value="Add" />
+  </form>
+  <hr />
+  <p>...or add other element:</p>
+  <button class="add-el" data-element="label" title="Simple text label">
+    Label
+  </button>
+  <button
+    class="add-el"
+    data-element="connection-state"
+    title="Shows whether client is connecting, connected, or not connected"
+  >
+    Connection state
+  </button>
+  <button
+    class="add-el"
+    data-element="address-input"
+    title="Allows you to enter IP/domain/team number of the NetworkTables server."
+  >
+    NetworkTables address
+  </button>
+  <button
+    class="add-el"
+    data-element="force-reconnect"
+    title="Forces client to reconnect."
+  >
+    Force reconnect button
+  </button>
+</dialog>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  dialog {
+    margin: auto;
+    padding: 1rem;
+  }
+  dialog,
+  form,
+  #topics {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  #topics {
+    overflow-y: auto;
+  }
+  hr {
+    margin: 0.5rem 0;
+  }
+  dialog::backdrop {
+    background-color: color-mix(
+      in srgb,
+      var(--color-primary-900),
+      transparent 50%
+    );
+  }
+  #cancel {
+    margin-left: auto;
+    aspect-ratio: 1 / 1;
+  }
+</style>
