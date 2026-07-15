@@ -79,7 +79,7 @@ export class NtInput extends HTMLElement {
       case "int[]":
       case "float[]":
       case "string[]":
-        throw new Error(`Unsupported nt-input type: ${this.ntValue.type}`)
+        throw new Error(`Unsupported nt-input type: ${this.ntValue!.type}`)
     }
   }
   getInputValue(): any {
@@ -102,7 +102,7 @@ export class NtInput extends HTMLElement {
       case "int[]":
       case "float[]":
       case "string[]":
-        throw new Error(`Unsupported nt-input type: ${this.ntValue.type}`)
+        throw new Error(`Unsupported nt-input type: ${this.ntValue!.type}`)
     }
   }
   attributeChangedCallback(name: string) {

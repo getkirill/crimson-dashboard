@@ -1,7 +1,7 @@
 import { filter } from "rxjs";
 import { NetworkTables } from "./nt";
 
-export const nt = new NetworkTables(localStorage.getItem("nt-address") ? JSON.parse(localStorage.getItem("nt-address")) : "127.0.0.1");
+export const nt = new NetworkTables(localStorage.getItem("nt-address") ? JSON.parse(localStorage.getItem("nt-address")!) : "127.0.0.1");
 (window as unknown as any).nt = nt;
 nt.connectionState$.subscribe((it) => console.log("[nt]", it));
 nt.messages$
