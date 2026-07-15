@@ -1,5 +1,6 @@
 import { NtCheckbox } from "../nt-checkbox";
 import { NtInput } from "../nt-input/index.ts";
+import { NtChart } from "../nt-chart";
 import { NtValueElement } from "../nt-value";
 import templateRaw from "./template.html?raw";
 import $template from "../template.ts";
@@ -43,20 +44,60 @@ export class ConfigureDialog extends HTMLElement {
       console.error("target not set");
       return;
     }
+    const variantSel = this.shadowRoot!.querySelector<HTMLSelectElement>("#variant")!;
     const settings =
       this.shadowRoot!.querySelector<HTMLDivElement>("#settings")!;
     if (this.target instanceof NtValueElement) {
       const widget = this.target.children.item(0);
       if (
         widget instanceof NtCheckbox ||
-        widget instanceof NtInput
+        widget instanceof NtInput ||
+        widget instanceof NtChart
       ) {
         settings.replaceChildren();
+
+        variantSel.disabled = false;
+        variantSel.replaceChildren();
+
+        const type = this.target.type;
+        const options: Array<{ value: string; text: string }> = [];
+        if (type === "boolean") {
+          options.push({ value: "nt-checkbox", text: "Checkbox" });
+        } else if (type === "int" || type === "float" || type === "double") {
+          options.push({ value: "nt-input", text: "Input" });
+          options.push({ value: "nt-chart", text: "Graph" });
+        } else {
+          options.push({ value: "nt-input", text: "Input" });
+        }
+
+        for (const opt of options) {
+          const o = document.createElement("option");
+          o.value = opt.value;
+          o.textContent = opt.text;
+          variantSel.appendChild(o);
+        }
+
+        if (widget) variantSel.value = widget.localName;
+
         const label = appendField(settings, "Label: ", "input");
         settings.appendChild(label);
-        label.value = widget.label ?? widget.ntValue!.name;
+        label.value = (widget as any).label ?? widget?.ntValue!.name;
         label.addEventListener("input", () => {
-          (widget as NtCheckbox).label = label.value;
+          if ((widget as any).label !== undefined) (widget as any).label = label.value;
+        });
+
+        variantSel.addEventListener("change", () => {
+          const sel = variantSel.value;
+          if (!this.target) return;
+          const current = this.target.children.item(0);
+          if (current && current.localName === sel) return;
+          const newEl = document.createElement(sel);
+          if ((current as any)?.getAttribute && (current as any).getAttribute("label")) {
+            const lab = (current as any).getAttribute("label");
+            if (lab) newEl.setAttribute("label", lab);
+          }
+          this.target.replaceChildren();
+          this.target.appendChild(newEl);
         });
       }
     } else if (this.target instanceof HTMLParagraphElement) {
