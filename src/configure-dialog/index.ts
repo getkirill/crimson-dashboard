@@ -1,4 +1,6 @@
 import { NtCheckbox } from "../nt-checkbox";
+import { NtInt } from "../nt-int";
+import { NtString } from "../nt-string";
 import { NtValueElement } from "../nt-value";
 import template from "./template.html";
 function appendField<T extends keyof HTMLElementTagNameMap>(
@@ -42,7 +44,11 @@ export class ConfigureDialog extends HTMLElement {
       this.shadowRoot!.querySelector<HTMLDivElement>("#settings")!;
     if (this.target instanceof NtValueElement) {
       const widget = this.target.children.item(0);
-      if (widget instanceof NtCheckbox) {
+      if (
+        widget instanceof NtCheckbox ||
+        widget instanceof NtString ||
+        widget instanceof NtInt
+      ) {
         settings.replaceChildren();
         const label = appendField(settings, "Label: ", "input");
         settings.appendChild(label);

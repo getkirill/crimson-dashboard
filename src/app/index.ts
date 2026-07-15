@@ -2,6 +2,8 @@ import { EMPTY, filter, fromEvent, skip, switchMap } from "rxjs";
 import "../drag-and-drop";
 import "../editor-toolbar";
 import "../nt-checkbox";
+import "../nt-string";
+import "../nt-int";
 import "../nt-value";
 import "../connection-state";
 import "../edit-menu";
@@ -72,12 +74,21 @@ export function mountApp() {
         if ("topic" in element) {
           switch (element.type) {
             case "boolean": {
-              const ntValue = createNtValue(
-                element.topic,
-                element.type,
-                "nt-checkbox",
+              addNewElement(
+                createNtValue(element.topic, element.type, "nt-checkbox"),
               );
-              addNewElement(ntValue);
+              break;
+            }
+            case "string": {
+              addNewElement(
+                createNtValue(element.topic, element.type, "nt-string"),
+              );
+              break;
+            }
+            case "int": {
+              addNewElement(
+                createNtValue(element.topic, element.type, "nt-int"),
+              );
               break;
             }
             default: {
