@@ -13,7 +13,7 @@ import templateRaw from "./template.html?raw";
 import $template from "../template.ts";
 const template = $template(templateRaw);
 import defaultLayout from "./defaultLayout.html?raw";
-import { createNtValue } from "../nt-value";
+import { createNtValue, NtValueElement } from "../nt-value";
 import type { DragAndDropElement } from "../drag-and-drop";
 function getTopMostParentOf(
   element: HTMLElement,
@@ -155,8 +155,9 @@ export function mountApp() {
       e.preventDefault();
       document.querySelectorAll("edit-menu").forEach((it) => it.remove());
       const editTarget = getTopMostParentOf(e.target as HTMLElement, dnd);
+      const menuLabel = editTarget instanceof NtValueElement ? editTarget.name : editTarget?.localName;
       const contextMenu = document.createElement("edit-menu");
-      contextMenu.setAttribute("element", editTarget!.nodeName.toLowerCase());
+      contextMenu.setAttribute("element", menuLabel ?? "unknown");
       contextMenu.style.left = `${e.clientX}px`;
       contextMenu.style.top = `${e.clientY}px`;
       contextMenu.addEventListener("menu-delete", () => {
