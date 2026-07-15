@@ -1,9 +1,4 @@
-import {
-  filter,
-  type Observable,
-  type Observer,
-  type Subscription,
-} from "rxjs";
+import { filter, type Observable, type Observer } from "rxjs";
 import nt from "../ntInstance";
 import type { NTTopicType } from "../nt";
 
